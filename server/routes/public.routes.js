@@ -23,22 +23,22 @@ router.post('/add-order', async (req, res) => {
       res.status(400).json({ success: false, error: 'No information sent.' })
       return;
     }
-  
+
     if (!req.body.order_item) {
       res.status(400).json({ success: false, error: 'No order item sent.'});
       return;
     }
-  
+
     if (!req.body.quantity) {
       res.status(400).json({ success: false, error: 'No quantity sent.'})
       return;
     }
-  
+
     const orderObj = new Order({
       order_item: req.body.order_item,
       quantity: req.body.quantity
     });
-  
+
     const dbResponse = await orderObj.save();
     if (dbResponse && dbResponse._id) {
       res.status(200).json({ success: true, insertedId: dbResponse._id });
@@ -51,13 +51,14 @@ router.post('/add-order', async (req, res) => {
 });
 
 router.post('/edit-order', async (req, res) => {
+  console.log(req.body);
   // expects id
   try {
     if (!req.body.id) {
       res.status(400).json({ success: false, error: 'No id supplied'});
       return;
     }
-    
+
     // make sure an order exists in the database with that id
     const targetOrder = await Order.findOne({ _id: req.body.id });
     if (!targetOrder) {
