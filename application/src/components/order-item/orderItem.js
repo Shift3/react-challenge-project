@@ -50,7 +50,17 @@ export default class OrderItem extends Component {
 
   render() {
     const {orderId, orderItem, orderQuantity, createdDate, updatedAt} = this.props;
-    // view rendered by default or after being edited
+
+    // formatting for mintues less than 10 for better readability, probably not the most ideal solution but it works for now without affected the data stored in the database.
+    let formattedCreatedMintues = createdDate.getMinutes();
+    formattedCreatedMintues = formattedCreatedMintues < 10 ?
+    '0' + formattedCreatedMintues : formattedCreatedMintues;
+
+    let formattedUpdatedMinutes = updatedAt.getMinutes();
+    formattedUpdatedMinutes = formattedUpdatedMinutes < 10 ?
+    '0' + formattedUpdatedMinutes : formattedUpdatedMinutes;
+
+    console.log(typeof updatedAt.getMinutes());
     if (this.state.isBeingEdited === false) {
       return (
         <div className="row view-order-container" id={orderId}>
@@ -58,10 +68,11 @@ export default class OrderItem extends Component {
             <h2>{this.state.updatedOrderItem || orderItem}</h2>
           </div>
           <div className="col-md-4 d-flex view-order-middle-col">
-            {/* Wording rendered depedning on whether or not the order was edited */}
-            {createdDate !== updatedAt ?
-            <p>Order updated at {`${updatedAt.getHours()}:${updatedAt.getMinutes()}`}</p> :
-            <p>Order placed at {`${createdDate.getHours()}:${createdDate.getMinutes()}`}</p>
+            {/* Wording depedning on whether or not the order was edited */}
+            {`${updatedAt.getHours()}:${updatedAt.getMinutes()}` !==
+            `${createdDate.getHours()}:${createdDate.getMinutes()}` ?
+            <p>Order updated at {`${updatedAt.getHours()}:${formattedUpdatedMinutes}`}</p> :
+            <p>Order placed at {`${createdDate.getHours()}:${formattedCreatedMintues}`}</p>
             }
             <p>Quantity: {this.state.updatedQuantity || orderQuantity}</p>
           </div>
