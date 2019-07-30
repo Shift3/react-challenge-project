@@ -51,7 +51,6 @@ router.post('/add-order', async (req, res) => {
 });
 
 router.post('/edit-order', async (req, res) => {
-  console.log(req.body);
   // expects id
   try {
     if (!req.body.id) {

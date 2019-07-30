@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
 import './orderItem.css';
 
-const EDIT_ORDER_URL = "http://localhost:4000/api/edit-order"
-const DELETE_ORDER_URL = "http://localhost:4000/api/delete-order"
+const EDIT_ORDER_URL = "http://localhost:4000/api/edit-order";
+const DELETE_ORDER_URL = "http://localhost:4000/api/delete-order";
 
 export default class OrderItem extends Component {
   state = {
@@ -31,13 +31,12 @@ export default class OrderItem extends Component {
         headers: {
             'Content-Type': 'application/json'
         }
-    })
-    .then(res => res.json())
-    .then(response => {
-      console.log("Success", JSON.stringify(response));
-    })
-    .catch(error => console.error(error));
-    this.props.getCurrentOrders()
+      })
+      .then(res => res.json())
+      .then(response => {
+        console.log("Success", JSON.stringify(response));
+      })
+      .catch(error => console.error(error));
   }
 
   handleMenuItemChange(event) {
@@ -48,10 +47,28 @@ export default class OrderItem extends Component {
     this.setState({ updatedQuantity: event.target.value });
   }
 
+  handleDeleteButtonClick(orderId, index) {
+    fetch(DELETE_ORDER_URL, {
+      method: 'POST',
+      body: JSON.stringify({
+          id: orderId,
+      }),
+      headers: {
+          'Content-Type': 'application/json'
+      }
+    })
+    .then(res => res.json())
+    .then(response => {
+        console.log("Success", JSON.stringify(response));
+        this.props.getCurrentOrders();
+    })
+    .catch(error => console.error(error));
+
+  }
+
   render() {
     const {orderId, orderItem, orderQuantity, createdDate, updatedAt} = this.props;
-
-    // formatting for mintues less than 10 for better readability, probably not the most ideal solution but it works for now without affected the data stored in the database.
+    // formatting for mintues less than 10 for better readability, probably not the most ideal solution but it works for now without affecting the data stored in the database.
     let formattedCreatedMintues = createdDate.getMinutes();
     formattedCreatedMintues = formattedCreatedMintues < 10 ?
     '0' + formattedCreatedMintues : formattedCreatedMintues;
@@ -60,7 +77,6 @@ export default class OrderItem extends Component {
     formattedUpdatedMinutes = formattedUpdatedMinutes < 10 ?
     '0' + formattedUpdatedMinutes : formattedUpdatedMinutes;
 
-    console.log(typeof updatedAt.getMinutes());
     if (this.state.isBeingEdited === false) {
       return (
         <div className="row view-order-container" id={orderId}>
@@ -79,11 +95,16 @@ export default class OrderItem extends Component {
           <div className="col-md-4 view-order-right-col">
             <button
               className="btn btn-success"
-              onClick={() => {this.handleEditButtonClick()}}
+              onClick={() => this.handleEditButtonClick()}
             >
               Edit
             </button>
-            <button className="btn btn-danger">Delete</button>
+            <button
+              className="btn btn-danger"
+              onClick={() => this.handleDeleteButtonClick(orderId)}
+            >
+              Delete
+            </button>
           </div>
         </div>
       )
@@ -122,11 +143,16 @@ export default class OrderItem extends Component {
           <div className="col-md-4 view-order-right-col">
             <button
               className="btn btn-success"
-              onClick={() => {this.handleUpdateButtonClick()}}
+              onClick={() => this.handleUpdateButtonClick()}
             >
               Update
             </button>
-            <button className="btn btn-danger">Delete</button>
+            <button
+              className="btn btn-danger"
+              onClick={() => this.handleDeleteButtonClick(orderId)}
+            >
+              Delete
+            </button>
           </div>
         </div>
       )
