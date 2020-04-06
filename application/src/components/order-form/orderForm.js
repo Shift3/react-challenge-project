@@ -20,7 +20,7 @@ class OrderForm extends Component {
     }
 
     menuItemChosen(event) {
-        this.setState({ item: event.target.value });
+        this.setState({ order_item: event.target.value });
     }
 
     menuQuantityChosen(event) {
@@ -32,6 +32,7 @@ class OrderForm extends Component {
         if (this.state.order_item === "") return;
         fetch(ADD_ORDER_URL, {
             method: 'POST',
+            mode: 'cors',
             body: JSON.stringify({
                 order_item: this.state.order_item,
                 quantity: this.state.quantity,
@@ -41,7 +42,7 @@ class OrderForm extends Component {
                 'Content-Type': 'application/json'
             }
         })
-        .then(res => res.json())
+        .then(res => console.log(res))
         .then(response => console.log("Success", JSON.stringify(response)))
         .catch(error => console.error(error));
     }
