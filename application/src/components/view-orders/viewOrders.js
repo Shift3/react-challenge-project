@@ -1,12 +1,20 @@
 import React, { Component } from 'react';
 import { Template } from '../../components';
 import { SERVER_IP } from '../../private';
+import { Redirect } from 'react-router-dom';
+import { connect } from 'react-redux';
 import './viewOrders.css';
 
+const mapStateToProps = (state) => ({
+    auth: state.auth
+})
+
 class ViewOrders extends Component {
-    state = {
+    constructor(props) {
+        super(props);
+    this.state = {
         orders: []
-    }
+    };}
 
     componentDidMount() {
         fetch(`${SERVER_IP}/api/current-orders`)
@@ -21,6 +29,8 @@ class ViewOrders extends Component {
     }
 
     render() {
+        // if (!this.props.auth.token) return <Redirect to="/login" />;
+        console.log('auth: ' + this.state.auth)
         return (
             <Template>
                 <div className="container-fluid">
@@ -49,4 +59,5 @@ class ViewOrders extends Component {
     }
 }
 
-export default ViewOrders;
+export default connect(mapStateToProps, null)(ViewOrders);
+// export default ViewOrders;
