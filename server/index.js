@@ -17,7 +17,7 @@ mongoose.connect(process.env.MONGODATABASE);
 mongoose.connection.on('connected', () => {
   console.log('Connected to databse: ', process.env.MONGODATABASE);
 });
-// display message on error__
+// display message on error
 mongoose.connection.on('error', (err) => {
   console.log('Database error: ', err);
 });
