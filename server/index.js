@@ -13,7 +13,7 @@ require('dotenv').config();
 // DATABASE SETUP
 // connect to db
 mongoose.connect(process.env.MONGODATABASE);
-// display message on connect
+// display message on connect_
 mongoose.connection.on('connected', () => {
   console.log('Connected to databse: ', process.env.MONGODATABASE);
 });
