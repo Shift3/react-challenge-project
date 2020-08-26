@@ -4,7 +4,14 @@ This project represents a challenge to test your git flow, programming, and trou
 ## Challenge Instructions
 You will begin by creating a fork of this repository to your own Github account. All work will be completed and reviewed within your own fork. Please do not create a Pull Request (PR) back into this repository.
 
-Once you have created your fork, review the Issues labeled `challenge task` [HERE](https://github.com/Shift3/react-challenge-project/issues?q=is%3Aissue+is%3Aopen+label%3A%22challenge+task%22). Work on each task in a new branch. Once the work is completed, create a Pull Request from the working branch to your `master` branch and reference the Issue you are working on. These open PRs will be the final submission which Shift3 will review.
+Once you have created your fork, review the Issues labeled `challenge task` [HERE](https://github.com/Shift3/react-challenge-project/issues?q=is%3Aissue+is%3Aopen+label%3A%22challenge+task%22). Shift3's standard for branching is as follows:
+
+- Maintain a `master` and development (`dev`) branch on your fork
+- For each new feature (issue), create a branch based off of your `dev` branch
+    - Once your feature has been completed, submit a Pull Request from your feature branch to your `dev` branch
+    - If you have a reviewer on your repository, once your Pull Request has been approved, merge your feature branch back into `dev`
+    - Otherwise, submit the Pull Request and merge it into your `dev` branch
+- Once the work has been completed, create a Pull Request from the working branch to your `master` branch and reference the Issue you are working on. These open PRs will be the final submission which Shift3 will review.
 
 Once you are ready to submit your work, send an email to your Shift3 contact with a link to your fork.
 
@@ -24,10 +31,10 @@ This is a multi-container docker environment that utilizes Docker to create thre
 ## Project Requirements
 
 - Docker
-    - [For Mac Users](https://docs.docker.com/docker-for-mac/install/)
-    - [For Windows 10 Pro/Enterprise Users](https://docs.docker.com/docker-for-windows/install/)
-    - [For Windows 7 or Windows 10 home Users](https://docs.docker.com/toolbox/toolbox_install_windows/)
-    - Kitematic should come automatically installed, with Docker, but make sure you have it available, it will be very useful in managine containers
+    - For Mac Users: [Docker Desktop for Mac](https://docs.docker.com/docker-for-mac/install/)
+    - For Windows 10 Pro/Enterprise Users: [Docker Desktop for Windows](https://docs.docker.com/docker-for-windows/install/)
+    - For Windows 7 or Windows 10 home Users: [Docker Toolbox](https://docs.docker.com/toolbox/toolbox_install_windows/)
+    - For Linux Users (follow link and choose your Distro): [Docker Engine](https://docs.docker.com/engine/install/)
 - Do not have anything running on the required ports (3000 for client, 4000 for server, 27017 for mongo.)
 
 ## Running the project
