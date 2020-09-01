@@ -3,6 +3,8 @@ import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import './main.css';
 
+const TOKEN_KEY = 'jwt';
+
 const mapStateToProps = state => ({
   temp: state.temp
 });
@@ -10,6 +12,7 @@ const mapStateToProps = state => ({
 class Main extends Component {
   render() {
     console.log('props', this.props);
+    localStorage.removeItem(TOKEN_KEY);
     return (
       <div className="main-body">
         <h1>Bruce's Diner Ordering Application</h1>
