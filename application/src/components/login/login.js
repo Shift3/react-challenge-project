@@ -2,9 +2,12 @@ import React, { Component } from 'react';
 import LoginForm from './login-form/loginForm';
 import './login.css';
 
+const TOKEN_KEY = 'jwt';
+
 class Login extends Component {
   
   render() {
+    localStorage.removeItem(TOKEN_KEY);
     return (
       <div className="main-body">
         <h1 className="text-center">Login Screen</h1>
