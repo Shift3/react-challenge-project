@@ -5,6 +5,7 @@ import { loginUser } from '../../../redux/actions/authActions'
 const mapActionsToProps = dispatch => ({
   commenceLogin(email, password) {
     dispatch(loginUser(email, password))
+    return dispatch(loginUser(email, password))
   }
 })
 const mapStateToProps = (state) => ({
@@ -23,9 +24,9 @@ class LoginForm extends Component {
     }
   }
 
-  login(e) {
+  async login(e) {
     e.preventDefault();
-    this.props.commenceLogin(this.state.email, this.state.password);
+     await this.props.commenceLogin(this.state.email, this.state.password);
     this.props.onLogin();
   }
 
