@@ -10,7 +10,7 @@ const DELETE_ORDER_URL = `${SERVER_IP}/api/delete-order`
 class ViewOrders extends Component {
     state = {
         orders: [],
-        editInfo: null
+        editInfo: false
     }
 
 
@@ -50,7 +50,20 @@ class ViewOrders extends Component {
         .catch((err) => console.error(err));
     }
 
+    editOrder(quantity, item, id) {
+        this.setState({ editInfo: { quantity, item, id } })
+    }
+
     render() {
+        if (this.state.editInfo) {
+            return <Redirect to={{
+                pathname: '/order',
+                state: {
+                    edit: true,
+                    ...this.state.editInfo
+                }
+            }} />
+        }
         return (            
             <Template>
                 <div className="container-fluid">
@@ -60,14 +73,14 @@ class ViewOrders extends Component {
                             <div className="row view-order-container" key={order._id}>
                                 <div className="col-md-4 view-order-left-col p-3">
                                     <h2>{order.order_item}</h2>
-                                    <p>Ordered by: {order.ordered_by || ''}</p>
+                                    <p>Osrdered by: {order.ordered_by || ''}</p>
                                 </div>
                                 <div className="col-md-4 d-flex view-order-middle-col">
                                     <p>Order placed at {`${createdDate.getHours()}:${createdDate.getMinutes()}:${createdDate.getSeconds()}`}</p>
                                     <p>Quantity: {order.quantity}</p>
                                  </div>
                                  <div className="col-md-4 view-order-right-col">
-                                     <button className="btn btn-success" >Edit</button>
+                                     <button className="btn btn-success" onClick={this.editOrder.bind(this, order.quantity, order.order_item, order._id)} >Edit</button>
                                      <button className="btn btn-danger" onClick={this.deleteOrder.bind(this, order._id)}>Delete</button>
                                  </div>
                             </div>
