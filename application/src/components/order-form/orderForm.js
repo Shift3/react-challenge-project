@@ -5,6 +5,7 @@ import { SERVER_IP } from '../../private';
 import './orderForm.css';
 
 const ADD_ORDER_URL = `${SERVER_IP}/api/add-order`
+const EDIT_ORDER_URL = `${SERVER_IP}/api/edit-order`
 
 const mapStateToProps = (state) => ({
     auth: state.auth,
@@ -14,13 +15,13 @@ class OrderForm extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            order_item: "",
-            quantity: "1"
+            order_item: props.location.state?.item || "",
+            quantity: props.location.state?.quantity || "1"
         }
     }
 
     menuItemChosen(event) {
-        this.setState({ item: event.target.value });
+        this.setState({ order_item: event.target.value });
     }
 
     menuQuantityChosen(event) {
@@ -29,13 +30,17 @@ class OrderForm extends Component {
 
     submitOrder(event) {
         event.preventDefault();
+        const { edit } = this.props.location.state;
+        const editOrAddOrder = edit ? 'edit' : 'add'
+
         if (this.state.order_item === "") return;
-        fetch(ADD_ORDER_URL, {
+        fetch(`${SERVER_IP}/api/${editOrAddOrder}-order`, {
             method: 'POST',
             body: JSON.stringify({
                 order_item: this.state.order_item,
                 quantity: this.state.quantity,
                 ordered_by: this.props.auth.email || 'Unknown!',
+                id: this.props.location.state.id
             }),
             headers: {
                 'Content-Type': 'application/json'
@@ -45,13 +50,14 @@ class OrderForm extends Component {
         .then(response => console.log("Success", JSON.stringify(response)))
         .catch(error => console.error(error));
     }
-
     render() {
         return (
             <Template>
+                {/* {console.log('yo', this.props.location.state)}
+                {console.log(this.props.location.state.edit)} */}
                 <div className="form-wrapper">
                     <form>
-                        <label className="form-label">I'd like to order...</label><br />
+                        <label className="form-label">{this.props.location.state?.edit ? 'Edit order' : 'I\'d like to order...'}</label><br />
                         <select 
                             value={this.state.order_item} 
                             onChange={(event) => this.menuItemChosen(event)}
@@ -72,7 +78,7 @@ class OrderForm extends Component {
                             <option value="5">5</option>
                             <option value="6">6</option>
                         </select>
-                        <button type="button" className="order-btn" onClick={(event) => this.submitOrder(event)}>Order It!</button>
+                        <button type="button" className="order-btn" onClick={(event) => this.submitOrder(event)}>{this.props.location.state?.edit ? 'Edit ' : 'Order '}It!</button>
                     </form>
                 </div>
             </Template>
